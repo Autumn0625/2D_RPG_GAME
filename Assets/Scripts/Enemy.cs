@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     private Animator ani;
     public float speed;
     public float startWaitTime;
-    public float damage;
+    public int damage;
     private float waitTime;
     public GameObject bloodEffect;//流血特效
 
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
         
     }
     //被攻擊的Function
-    public void onDamage(float damage)
+    public void onDamage(int damage)
     {
         hp = hp - damage;
         ani.SetTrigger("onDamage");

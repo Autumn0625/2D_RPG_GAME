@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float health;
+    public int health;
     public int blinks;
     public float time;
     public float dieTime;
@@ -15,6 +15,8 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        HealthBar.HealthMax = health;
+        HealthBar.HealthCurrent = health;
         myRender = GetComponent<Renderer>();
         anim = GetComponent<Animator>();
     }
@@ -24,15 +26,16 @@ public class PlayerHealth : MonoBehaviour
     {
         
     }
-    public void DamagePlayer(float damage)
+    public void DamagePlayer(int damage)
     {
-        health -= damage;   
+        health -= damage;
         if (health <= 0) 
         {
             anim.SetTrigger("Die");//播放死亡動畫
             Invoke("KillPlayer", dieTime);
             Debug.Log("Player Dead");
         }
+        HealthBar.HealthCurrent = health;
         BlinkPlayer(blinks, time);
     }
     void KillPlayer()

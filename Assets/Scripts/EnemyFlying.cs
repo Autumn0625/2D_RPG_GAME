@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyFlying : MonoBehaviour
 {
-    private float hp;
+    private int hp;
     private Animator ani;
     public float speed;
     public float startWaitTime;
     private float waitTime;
     public GameObject bloodEffect;//流血特效
-    public float damage;
+    public int damage;
 
     public Transform movePos;
     public Transform leftDownPos;
@@ -21,7 +21,7 @@ public class EnemyFlying : MonoBehaviour
     {
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         ani = GetComponent<Animator>();
-        hp = 30.0f;
+        hp = 30;
         Debug.Log("Hi i am EnemyFlying my hp is : " + hp);
         waitTime = startWaitTime;
         movePos.position = GetRandomPos();
@@ -44,7 +44,7 @@ public class EnemyFlying : MonoBehaviour
         }
     }
     //被攻擊的Function
-    public void onDamage(float damage)
+    public void onDamage(int damage)
     {
         hp = hp - damage;
         ani.SetTrigger("onDamage");
