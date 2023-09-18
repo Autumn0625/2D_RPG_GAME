@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D rig;
     private Animator ani;
+    private CapsuleCollider2D cap;
 
+    public float restoreTime;
     public Transform groundpoint;
     public Transform attackpoint;
     public float attackRange = 3f;
@@ -20,11 +22,13 @@ public class PlayerController : MonoBehaviour
     private bool isFlip = false;
     private bool isGrounded= false;
     private bool canAttack = true;
+    private bool isOneWayPlatform;
 
     public void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
+        cap = GetComponent<CapsuleCollider2D>();
     }
     public void Update()
     {
@@ -35,6 +39,7 @@ public class PlayerController : MonoBehaviour
         ani.SetBool("isGrounded", isGrounded);
         ani.SetFloat("yVelocity", rig.velocity.y);
 
+        OneWayPlatformCheck();
 
         if (!isFlip)
         {
@@ -52,8 +57,8 @@ public class PlayerController : MonoBehaviour
                 transform.Rotate(0.0f, 180f, 0.0f);
             }
         }
-
-        isGrounded = Physics2D.OverlapCircle(groundpoint.position, .2f,groundMask);
+        isOneWayPlatform = cap.IsTouchingLayers(LayerMask.GetMask("OneWayPlatform"));
+        isGrounded = Physics2D.OverlapCircle(groundpoint.position, .2f,groundMask) || cap.IsTouchingLayers(LayerMask.GetMask("MovingPlatform")) || cap.IsTouchingLayers(LayerMask.GetMask("OneWayPlatform"));
         canAttack = isGrounded;
     }
 
@@ -98,5 +103,27 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawWireSphere(groundpoint.position, .2f);
         Gizmos.DrawWireSphere(attackpoint.position, attackRange);
+    }
+    
+    void OneWayPlatformCheck()
+    {
+        //if(isGrounded) 
+        //{ 
+        //    if(isGrounded && gameObject.)
+        //}
+        float moveY = Input.GetAxis("Vertical");
+        if (isOneWayPlatform && moveY <- 0.1)
+        {
+            gameObject.layer = LayerMask.NameToLayer("OneWayPlatform");
+            Invoke("RestorePlayerLayer", restoreTime);
+        }
+    }
+
+    void RestorePlayerLayer()
+    {
+        if(!isGrounded &&gameObject.layer != LayerMask.NameToLayer("Player"))
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+        }
     }
 }
