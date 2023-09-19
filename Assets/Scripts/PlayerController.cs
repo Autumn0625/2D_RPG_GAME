@@ -107,12 +107,12 @@ public class PlayerController : MonoBehaviour
     
     void OneWayPlatformCheck()
     {
-        //if(isGrounded) 
-        //{ 
-        //    if(isGrounded && gameObject.)
-        //}
+        if (isGrounded && gameObject.layer != LayerMask.NameToLayer("player"))
+        {
+            gameObject.layer = LayerMask.NameToLayer("player");
+        }
         float moveY = Input.GetAxis("Vertical");
-        if (isOneWayPlatform && moveY <- 0.1)
+        if (isOneWayPlatform && moveY <- 0.1f)
         {
             gameObject.layer = LayerMask.NameToLayer("OneWayPlatform");
             Invoke("RestorePlayerLayer", restoreTime);
@@ -121,9 +121,9 @@ public class PlayerController : MonoBehaviour
 
     void RestorePlayerLayer()
     {
-        if(!isGrounded &&gameObject.layer != LayerMask.NameToLayer("Player"))
+        if(!isGrounded && gameObject.layer != LayerMask.NameToLayer("player"))//Player§ï¦¨player
         {
-            gameObject.layer = LayerMask.NameToLayer("Player");
+            gameObject.layer = LayerMask.NameToLayer("player");
         }
     }
 }

@@ -2603,7 +2603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  restoreTime: 0
+  restoreTime: 0.5
   groundpoint: {fileID: 1381697428}
   attackpoint: {fileID: 1166758632}
   attackRange: 0.5
