@@ -13,13 +13,13 @@ TagManager:
   - 
   - Water
   - UI
-  - ground
-  - player
-  - enemy
-  - spike
+  - Ground
+  - Player
+  - Enemy
+  - Spike
   - MovingPlatform
   - OneWayPlatform
-  - 
+  - Ladder
   - 
   - 
   - 
@@ -48,6 +48,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 945869623
+    locked: 0
+  - name: Ladder
+    uniqueID: 1842247991
     locked: 0
   - name: Enemy
     uniqueID: 2436893041
