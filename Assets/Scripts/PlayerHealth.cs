@@ -40,6 +40,7 @@ public class PlayerHealth : MonoBehaviour
         if (health <= 0) 
         {
             rb2d.velocity = new Vector2(0, 0);
+            //GameController.isGameAlive = false;
             anim.SetTrigger("Die");//播放死亡動畫
             Invoke("KillPlayer", dieTime);
             Debug.Log("Player Dead");

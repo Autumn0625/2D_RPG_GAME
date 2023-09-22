@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyGround : MonoBehaviour
 {
-    private float hp;
+    private int hp;
     private Animator ani;
     public float speed;
     public float startWaitTime;
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     {
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         ani = GetComponent<Animator>();
-        hp = 30.0f;
+        hp = 30;
         Debug.Log("Hi i am enemy my hp is : "+hp);
         waitTime = startWaitTime;
     }

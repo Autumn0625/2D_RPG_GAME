@@ -8,60 +8,59 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 5f;
     public float jumpSpeed;
     public float doubleJumpSpeed;
-    //public float climbSpeed;
+    public float climbSpeed;
+    public float restoreTime;
 
-    private BoxCollider2D myfeet;
+    private BoxCollider2D myFeet;
     private Rigidbody2D rig;
     private Animator ani;
-    private CapsuleCollider2D cap;
     private bool isGround;
     private bool canDoubleJump;
-    public float restoreTime;
-    //public LayerMask groundMask, enemymask;
-    
-    //private bool isFlip = false;
-    
-    //private bool canAttack = true;
-    //private bool isOneWayPlatform;
+    private bool isOneWayPlatform;
 
-    //private bool isLadder;
-    //private bool isClimbing;
+    private bool isLadder;
+    private bool isClimbing;
 
-    //private float playerGravity;
+    private bool isJumping;
+    private bool isDoubleJumping;
+    private bool isFalling;
+    private bool isDoubleFalling;
+
+    private float playerGravity;
 
     public void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
-        myfeet = GetComponent<BoxCollider2D>();
-    //    cap = GetComponent<CapsuleCollider2D>();
-    //    playerGravity = rig.gravityScale;
+        myFeet = GetComponent<BoxCollider2D>();
+        playerGravity = rig.gravityScale;
     }
     public void Update()
     {
-        Flip();
-        Run();
-        Jump();
-        //Attack();
-        CheckGrounded();
-        SwitchAnimation();
-        //CheckAirStatus();
-        //OneWayPlatformCheck();
-
-
-        //isOneWayPlatform = cap.IsTouchingLayers(LayerMask.GetMask("OneWayPlatform"));
-        //isGrounded = Physics2D.OverlapCircle(groundpoint.position, .2f,groundMask) || cap.IsTouchingLayers(LayerMask.GetMask("MovingPlatform")) || cap.IsTouchingLayers(LayerMask.GetMask("OneWayPlatform"));
-        //canAttack = isGrounded;
-        //CheckLadder();
+        if (GameController.isGameAlive)
+        {
+            CheckAirStatus();
+            Flip();
+            Run();
+            Jump();
+            Climb();
+            CheckGrounded();
+            CheckLadder();
+            SwitchAnimation();
+            OneWayPlatformCheck();
+        }
     }
-    //void CheckLadder()
-    //{
-    //    isLadder = cap.IsTouchingLayers(LayerMask.GetMask("Ladder"));
-    //}
-    public void CheckGrounded()
+    void CheckLadder()
     {
-        isGround = myfeet.IsTouchingLayers(LayerMask.GetMask("Ground"));
-        Debug.Log(isGround);
+        isLadder = myFeet.IsTouchingLayers(LayerMask.GetMask("Ladder"));
+    }
+    void CheckGrounded()
+    {
+        isGround = myFeet.IsTouchingLayers(LayerMask.GetMask("Ground")) ||
+                   myFeet.IsTouchingLayers(LayerMask.GetMask("MovingPlatform")) ||
+                   myFeet.IsTouchingLayers(LayerMask.GetMask("OneWayPlatform"));
+        isOneWayPlatform = myFeet.IsTouchingLayers(LayerMask.GetMask("OneWayPlatform"));
+        Debug.Log("Check:" + isGround);
     }
     public void Flip()
     {
@@ -109,13 +108,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    //public void Attack()
-    //{
-    //    if (Input.GetButtonDown("Attack"))
-    //    {
-    //        ani.SetTrigger("Attack");
-    //    }
-    //}
+
     public void SwitchAnimation()
     {
         ani.SetBool("Idle", false);
@@ -148,58 +141,70 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //public void Climb()
-    //{
-    //    if (isLadder)
-    //    {
-    //        float moveY = Input.GetAxis("Vertical");
-    //        Debug.Log(moveY);
-    //        if (moveY > 0.5f || moveY < -0.5)
-    //        {
-    //            ani.SetBool("Climbing", true);
-    //            rig.gravityScale = 0.0f;
-    //            rig.velocity = new Vector2(rig.velocity.x, moveY * climbSpeed);
-    //        }
-    //        else
-    //        {
-    //            ani.SetBool("Climbing", false);
-    //            rig.velocity = new Vector2(rig.velocity.x, 0.0f);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        ani.SetBool("Climbing", false);
-    //        rig.gravityScale = playerGravity;
-    //    }
+    public void Climb()
+    {
+        if (isLadder)
+        {
+            float moveY = Input.GetAxis("Vertical");
+            Debug.Log(moveY);
+            if (moveY > 0.5f || moveY < -0.5)
+            {
+                ani.SetBool("Climbing", true);
+                rig.gravityScale = 0.0f;
+                rig.velocity = new Vector2(rig.velocity.x, moveY * climbSpeed);
+            }
+            else
+            {
+                if(isJumping || isFalling || isDoubleFalling || isDoubleJumping)
+                {
+                    ani.SetBool("Climbing", false);
+                }
+                else
+                {
+                    ani.SetBool("Climbing", false);
+                    rig.velocity = new Vector2(rig.velocity.x, 0.0f);
+                }
+            }
+        }
+        else
+        {
+            ani.SetBool("Climbing", false);
+            rig.gravityScale = playerGravity;
+        }
 
-        
-    //}
-    
-    
-    //void OneWayPlatformCheck()
-    //{
-    //    if (isGrounded && gameObject.layer != LayerMask.NameToLayer("player"))
-    //    {
-    //        gameObject.layer = LayerMask.NameToLayer("player");
-    //    }
-    //    float moveY = Input.GetAxis("Vertical");
-    //    if (isOneWayPlatform && moveY <- 0.1f)
-    //    {
-    //        gameObject.layer = LayerMask.NameToLayer("OneWayPlatform");
-    //        Invoke("RestorePlayerLayer", restoreTime);
-    //    }
-    //}
 
-    //void RestorePlayerLayer()
-    //{
-    //    if(!isGrounded && gameObject.layer != LayerMask.NameToLayer("player"))//Player§ï¦¨player
-    //    {
-    //        gameObject.layer = LayerMask.NameToLayer("player");
-    //    }
-    //}
+    }
 
-    //void CheckAirStatus()
-    //{
-    //    isClimbing = ani.GetBool("Climbing");
-    //}
+
+    void OneWayPlatformCheck()
+    {
+        if (isGround && gameObject.layer != LayerMask.NameToLayer("Player"))
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+        }
+
+        float moveY = Input.GetAxis("Vertical");
+        if (isOneWayPlatform && moveY < -0.1f)
+        {
+            gameObject.layer = LayerMask.NameToLayer("OneWayPlatform");
+            Invoke("RestorePlayerLayer", restoreTime);
+        }
+    }
+
+    void RestorePlayerLayer()
+    {
+        if (!isGround && gameObject.layer != LayerMask.NameToLayer("Player"))
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+        }
+    }
+
+    void CheckAirStatus()
+    {
+        isJumping = ani.GetBool("Jump");
+        isFalling = ani.GetBool("Fall");
+        isDoubleJumping = ani.GetBool("DoubleJump");
+        isDoubleFalling = ani.GetBool("DoubleFall");
+        isClimbing = ani.GetBool("Climbing");
+    }
 }
