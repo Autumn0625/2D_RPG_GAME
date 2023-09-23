@@ -11,6 +11,7 @@ public class EnemyFlying : MonoBehaviour
     private float waitTime;
     public GameObject bloodEffect;//¬y¦å¯S®Ä
     public int damage;
+    public GameObject dropCoin;
 
     public Transform movePos;
     public Transform leftDownPos;
@@ -57,6 +58,7 @@ public class EnemyFlying : MonoBehaviour
             Debug.Log("EnemyFlying is dead");
             ani.SetBool("Death", true);
             Destroy(gameObject);
+            Instantiate(dropCoin, transform.position, Quaternion.identity);
         }
     }
     Vector2 GetRandomPos()
