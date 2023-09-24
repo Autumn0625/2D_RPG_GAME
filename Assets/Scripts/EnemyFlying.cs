@@ -12,6 +12,7 @@ public class EnemyFlying : MonoBehaviour
     public GameObject bloodEffect;//流血特效
     public int damage;
     public GameObject dropCoin;
+    public GameObject floatPoint;
 
     public Transform movePos;
     public Transform leftDownPos;
@@ -47,6 +48,8 @@ public class EnemyFlying : MonoBehaviour
     //被攻擊的Function
     public void onDamage(int damage)
     {
+        GameObject gb = Instantiate(floatPoint, transform.position, Quaternion.identity) as GameObject;
+        gb.transform.GetChild(0).GetComponent<TextMesh>().text = damage.ToString();
         hp = hp - damage;
         ani.SetTrigger("onDamage");
         Debug.Log("Now EnemyFlying hp:" + hp);

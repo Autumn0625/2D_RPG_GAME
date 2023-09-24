@@ -57280,6 +57280,10 @@ PrefabInstance:
       propertyPath: dropCoin
       value: 
       objectReference: {fileID: 7713109093155338860, guid: 293971a4c2294404c8fe2b01a07ca543, type: 3}
+    - target: {fileID: 485345508924860597, guid: 49c07e6c63e694d4a8896c468cf85f3b, type: 3}
+      propertyPath: floatPoint
+      value: 
+      objectReference: {fileID: 6497725754014722826, guid: b8fd53a8cd6754b4a89a4d1aab746fa3, type: 3}
     - target: {fileID: 1227154978032607962, guid: 49c07e6c63e694d4a8896c468cf85f3b, type: 3}
       propertyPath: m_Name
       value: FlyingEye
