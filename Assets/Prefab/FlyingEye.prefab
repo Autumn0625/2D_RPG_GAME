@@ -86,7 +86,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,7 +105,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1858074255
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -4795363162621231457, guid: 6d7cd4f7505dc674c891ca8946cfd98b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -171,6 +171,7 @@ MonoBehaviour:
   startWaitTime: 0.2
   bloodEffect: {fileID: 7677556958345013484, guid: 1f0ab854380e4b04686adbe54ce927da, type: 3}
   damage: 2
+  dropCoin: {fileID: 0}
   movePos: {fileID: 485345509042153550}
   leftDownPos: {fileID: 485345508844751796}
   rightUpPos: {fileID: 485345508949134171}
